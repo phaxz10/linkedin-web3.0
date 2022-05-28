@@ -1,86 +1,87 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { Layout } from '../components'
+import PostCard from '../components/Homepage/PostCard'
+import PostComposeCard from '../components/Homepage/PostComposeCard'
+import withAuth from '../components/lib/withAuth'
+import SidebarLeft from '../components/Sidebar/Left'
+import SidebarRight from '../components/Sidebar/Right'
+
+const postContent = [
+  {
+    author: {
+      address: '0xf3B642b386431Ad2FEcF84F2c95C6dFfED229Ef5',
+      avatar: '/images/User1.png',
+      name: 'Microsoft',
+      followerCount: 2000,
+    },
+    featuredImage: '/images/PostImage1.png',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt venenatis mi. Vestibulum ullamcorper massa vitae nulla lobortis porta in ac odio.',
+    datePosted: '6d',
+  },
+  {
+    author: {
+      address: '0xf3B642b386431Ad2FEcF84F2c95C6dFfED229Ef5',
+      avatar: '/images/User2.png',
+      name: 'GitHub',
+      followerCount: 3500,
+    },
+    featuredImage: '/images/PostImage2.png',
+    content: `The 2020 State of the Octoverse uncovered COVID's impact on developer contributions, the OSS community pandemic response, and the challenge of securing the world’s software. Learn how developers turned challenges into opportunities on The ReadME Project.`,
+    datePosted: '1w',
+  },
+  {
+    author: {
+      address: '0xf3B642b386431Ad2FEcF84F2c95C6dFfED229Ef5',
+      avatar: '/images/User1.png',
+      name: 'Meta',
+      followerCount: 100,
+    },
+    featuredImage: '/images/PostImage3.png',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt venenatis mi. Vestibulum ullamcorper massa vitae nulla lobortis porta in ac odio.',
+    datePosted: '1m',
+  },
+]
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="">
       <Head>
-        <title>Create Next App</title>
+        <title>LinkedIn Web3</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      <Layout>
+        <div className="mx-auto mt-8 max-w-[1440px] px-4 sm:px-8 xl:px-32">
+          <div className="flex justify-center gap-2 md:justify-between">
+            <SidebarLeft />
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
+            <div className="flex max-w-max flex-grow flex-col gap-5">
+              <div>
+                <PostComposeCard />
+              </div>
 
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
+              {postContent.map(
+                ({ author, content, datePosted, featuredImage }) => (
+                  <PostCard
+                    key={author.name}
+                    datePosted={datePosted}
+                    author={author}
+                    content={content}
+                    featuredImage={featuredImage}
+                  />
+                )
+              )}
+            </div>
 
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            <SidebarRight />
+          </div>
         </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
+      </Layout>
     </div>
   )
 }
 
-export default Home
+export default withAuth(Home)
